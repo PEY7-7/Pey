@@ -1,1 +1,148 @@
-<!DOCTYPE html><html><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>BabyTalk</title><link rel='stylesheet' href='style.css'></head><body><div class='wrap'><h1>🌷 BabyTalk</h1><p>오늘 아이에게 뭐라고 말하고 싶나요?</p><textarea id='input' placeholder='예: 우유 다 먹었어?'></textarea><button onclick='translateText()'>🩷 영어로 바꾸기</button><div class='card'><div id='eng'>Let's talk together!</div><div id='pron'>렛츠 토크 투게더!</div><div id='kor'></div></div><button onclick='speak()'>🔊 듣기</button></div><script src='script.js'></script></body></html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BabyTalk</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:sans-serif;
+}
+
+body{
+background:#FFF8F4;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.container{
+width:100%;
+max-width:420px;
+padding:25px;
+text-align:center;
+}
+
+h1{
+font-size:42px;
+color:#ff7ea8;
+margin-bottom:12px;
+}
+
+p{
+font-size:20px;
+color:#666;
+margin-bottom:40px;
+}
+
+#mic{
+width:180px;
+height:180px;
+border:none;
+border-radius:50%;
+background:#ff8fb1;
+font-size:70px;
+color:white;
+box-shadow:0 10px 25px rgba(0,0,0,.15);
+cursor:pointer;
+transition:.2s;
+}
+
+#mic:active{
+transform:scale(.95);
+}
+#mic.listening{
+animation:pulse 1s infinite;
+background:#ff5f8f;
+}
+
+@keyframes pulse{
+
+0%{
+transform:scale(1);
+box-shadow:0 0 0 0 rgba(255,95,143,.5);
+}
+
+70%{
+transform:scale(1.08);
+box-shadow:0 0 0 25px rgba(255,95,143,0);
+}
+
+100%{
+transform:scale(1);
+box-shadow:0 0 0 0 rgba(255,95,143,0);
+}
+
+}
+
+#status{
+margin-top:30px;
+font-size:24px;
+font-weight:bold;
+color:#ff5f8f;
+min-height:40px;
+}
+</style>
+</head>
+
+  const SpeechRecognition =
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
+
+const recognition = new SpeechRecognition();
+
+recognition.lang = "ko-KR";
+recognition.interimResults = false;
+recognition.continuous = false;
+
+recognition.onresult = (event) => {
+
+const text = event.results[0][0].transcript;
+
+status.innerText = text;
+
+};
+
+recognition.onend = () => {
+mic.classList.remove("listening");
+};
+  <script>
+
+const mic=document.getElementById("mic");
+const status=document.getElementById("status");
+
+mic.onclick = () => {
+
+mic.classList.add("listening");
+status.innerText = "🎤 듣고 있어요...";
+
+recognition.start();
+
+};else{
+
+status.innerText="";
+
+}
+
+}
+
+  </script>
+<body>
+
+<div class="container">
+
+<h1>BabyTalk</h1>
+
+<p>오늘 당신의 일상을 들려주세요.</p>
+
+<button id="mic">🎤</button>
+<div id="status"></div>
+</div>
+
+</body>
+</html>
