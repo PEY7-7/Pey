@@ -1,0 +1,1 @@
+async function translateKo(t){const d=await fetch('db.json').then(r=>r.json());return d[t]||'Translation not found yet.';}

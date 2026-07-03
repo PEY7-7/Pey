@@ -1,0 +1,1 @@
+function speakEnglish(t){speechSynthesis.speak(new SpeechSynthesisUtterance(t));}

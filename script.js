@@ -33,3 +33,19 @@ try{rec.stop();}catch(err){}
 }else{
 status.textContent='이 브라우저는 음성인식을 지원하지 않습니다.';
 }
+
+
+const english=document.getElementById('english');
+if(rec){
+ const old=rec.onresult;
+ rec.onresult=async(e)=>{
+ let t='';
+ for(let i=0;i<e.results.length;i++) t+=e.results[i][0].transcript;
+ status.textContent=t;
+ const en=await translateKo(t.trim());
+ if(english){english.textContent=en; speakEnglish(en);}
+ };
+}
+if(english){
+ english.onclick=()=>speakEnglish(english.textContent);
+}
